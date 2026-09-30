@@ -38,25 +38,28 @@ def main():
     print(f"venv path         : {venv_dir}")
     print(separator_line, "\n")
 
-    try:
-        if venv_dir.exists():
-            print("Attention: venv directory already exists!")
-            print("Do you want to keep and update the existing virtual environment? (Otherwise it will be overwritten)")
-            user_input = input("Type your answer [Y/n]: ").strip().lower()
-            print()
-            
-            if user_input in ("", "y", "yes"):
-                print("Updating existing virtual environment...")
-                venv.create(venv_dir, with_pip=True, clear=False)
-            else:
-                print("Clearing the old virtual environment ✅")
-                print("Creating virtual environment...")
-                # clear=True removes existing contents, by user choice 
-                venv.create(venv_dir, with_pip=True, clear=True)
+    # A flag to clear the existing virtual environment or not.
+    clear_state = False
+    if venv_dir.exists():
+        print("Attention: venv directory already exists!")
+        print("Do you want to keep and update the existing virtual environment? (Otherwise it will be overwritten)")
+        user_input = input("Type your answer [Y/n]: ").strip().lower()
+        print()
 
+        if user_input in ("n", "no"):
+            print("Clearing the old virtual environment ✅")
+            clear_state = True
         else:
-            print("Creating virtual environment...")
-            venv.create(venv_dir, with_pip=True)
+            print("Updating existing virtual environment...")
+
+    try:
+        print("Creating virtual environment...")
+        # clear=True removes existing contents by user choice.
+        venv.create(
+            venv_dir,
+            with_pip=True,
+            clear=clear_state
+        )
 
     except Exception as error:
         print(f"❌ Error while creating venv: {error}")
