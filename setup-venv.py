@@ -44,7 +44,7 @@ def main():
         venv.create(venv_dir, with_pip=True, clear=True)
         print("✅ venv created successfully.")
     except Exception as error:
-        print(f"❌ Error creating venv: {error}")
+        print(f"❌ Error while creating venv: {error}")
         sys.exit(1)
 
     try: # Find the Python executable inside the venv
@@ -55,7 +55,7 @@ def main():
     except:
         if not python_exe.exists():
             print("❌ Python executable not found inside venv!")
-        sys.exit(1)
+            sys.exit(1)
 
     try: # Install requirements.txt
         print(f"\nInstalling packages from {requirements.name}...")
