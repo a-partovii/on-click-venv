@@ -67,6 +67,8 @@ def main():
         python_exe = venv_dir / "Scripts" / "python.exe"
     else:
         python_exe = venv_dir / "bin" / "python3"
+        if not python_exe.exists(): # Fallback
+                python_exe = venv_dir / "bin" / "python"
 
     if not python_exe.exists():
         print("❌ Python executable not found inside venv!")
@@ -74,12 +76,14 @@ def main():
 
     try: # Install requirements.txt
         print(f"\nInstalling packages from {requirements.name}...")
-        # First, try upgrade pip
-        subprocess.check_call(
-            [str(python_exe), "-m", "pip", "install", "--upgrade", "pip"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.STDOUT
-        )
+
+        ## Try upgrading pip, Uncomment it on your own
+        # subprocess.check_call(
+        #     [str(python_exe), "-m", "pip", "install", "--upgrade", "pip"],
+        #     stdout=subprocess.DEVNULL,
+        #     stderr=subprocess.STDOUT
+        # )
+
         # Install requirements
         subprocess.check_call(
             [str(python_exe), "-m", "pip", "install", "-r", str(requirements)]
