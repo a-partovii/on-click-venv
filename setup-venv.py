@@ -20,7 +20,7 @@ def win_exit():
         input("\nPress <Enter> to exit...")
 
 def main():
-    graphical_line = "=" * 50 # The TUI line
+    separator_line = "=" * 50 # A separator for console output
     project_dir = Path(__file__).resolve().parent
     requirements = project_dir / "requirements.txt"
 
@@ -32,11 +32,11 @@ def main():
 
     venv_dir = project_dir / "venv"
 
-    print(graphical_line)
+    print(separator_line)
     print("Starting virtual environment setup")
     print(f"Project directory : {project_dir}")
     print(f"venv path         : {venv_dir}")
-    print(graphical_line, "\n")
+    print(separator_line, "\n")
 
     try:
         if venv_dir.exists():
@@ -46,7 +46,7 @@ def main():
             print()
             
             if user_input in ("", "y", "yes"):
-                print("Updating virtual environment...")
+                print("Updating existing virtual environment...")
                 venv.create(venv_dir, with_pip=True, clear=False)
             else:
                 print("Clearing the old virtual environment ✅")
@@ -89,7 +89,7 @@ def main():
             [str(python_exe), "-m", "pip", "install", "-r", str(requirements)]
         )
         print()
-        print(graphical_line)
+        print(separator_line)
         print("✅ Installation completed successfully.")
 
     except subprocess.CalledProcessError as error:
@@ -97,7 +97,7 @@ def main():
         sys.exit(1)
 
     print("   Ready to use!")
-    print(graphical_line)
+    print(separator_line)
 
     if sys.platform == "win32":
         print(f"\nTo activate manually:\n  {venv_dir}\\Scripts\\activate")
