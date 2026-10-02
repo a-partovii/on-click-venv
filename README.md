@@ -11,7 +11,7 @@ It works cross-platform and uses only Python's standard library, so no extra too
 On other systems, such as macOS or Linux, run:
 
 ```bash
-python setup-venv.py
+python3 setup-venv.py
 ```
 
 Make sure a `requirements.txt` file exists in the project folder.<br>
