@@ -23,14 +23,12 @@ def main():
     separator_line = "=" * 50 # A separator for console output
     project_dir = Path(__file__).resolve().parent
     requirements = project_dir / "requirements.txt"
+    venv_dir = project_dir / "venv"
 
     if not requirements.exists():
-        print("\n❌ 'requirements.txt' not found!")
-        print("Please create a 'requirements.txt' file and try again.")
-        win_exit()
-        sys.exit(1)
-
-    venv_dir = project_dir / "venv"
+        print()
+        print("'requirements.txt' not found!")
+        print("You will have an empty venv.")
 
     print(separator_line)
     print("Starting virtual environment setup")
@@ -77,27 +75,28 @@ def main():
         print("❌ Python executable not found inside venv!")
         sys.exit(1)
 
-    try: # Install requirements.txt
-        print(f"\nInstalling packages from {requirements.name}...")
+    if requirements.exists():
+        try: # Install requirements.txt
+            print(f"\nInstalling packages from {requirements.name}...")
 
-        ## Try upgrading pip, Uncomment it on your own
-        # subprocess.check_call(
-        #     [str(python_exe), "-m", "pip", "install", "--upgrade", "pip"],
-        #     stdout=subprocess.DEVNULL,
-        #     stderr=subprocess.STDOUT
-        # )
+            ## Try upgrading pip, Uncomment it on your own
+            # subprocess.check_call(
+            #     [str(python_exe), "-m", "pip", "install", "--upgrade", "pip"],
+            #     stdout=subprocess.DEVNULL,
+            #     stderr=subprocess.STDOUT
+            # )
 
-        # Install requirements
-        subprocess.check_call(
-            [str(python_exe), "-m", "pip", "install", "-r", str(requirements)]
-        )
-        print()
-        print(separator_line)
-        print("✅ Installation completed successfully.")
+            # Install requirements
+            subprocess.check_call(
+                [str(python_exe), "-m", "pip", "install", "-r", str(requirements)]
+            )
+            print()
+            print(separator_line)
+            print("✅ Installation completed successfully.")
 
-    except subprocess.CalledProcessError as error:
-        print(f"❌ Error while installing packages: {error}")
-        sys.exit(1)
+        except subprocess.CalledProcessError as error:
+            print(f"❌ Error while installing packages: {error}")
+            sys.exit(1)
 
     print("   Ready to use!")
     print(separator_line)
